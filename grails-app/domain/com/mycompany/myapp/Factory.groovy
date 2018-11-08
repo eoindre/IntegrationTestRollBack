@@ -3,13 +3,9 @@ package com.mycompany.myapp
 class Factory {
 
     String name
-    Factory primaryFactory
+    String testField
 
     static constraints = {
-        primaryFactory nullable: true
-    }
-
-    Factory getPrimaryFactory() {
-        primaryFactory ?: this
+        testField nullable: true
     }
 }
