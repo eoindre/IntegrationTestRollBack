@@ -26,6 +26,7 @@ class TestServiceIntSpec extends Specification {
         testingService.testServiceMethod(factories)
 
         then:
+        def ex = thrown(Exception)
         factoryOne.testField == null
         factoryTwo.testField == null
     }

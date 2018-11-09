@@ -6,17 +6,13 @@ import grails.gorm.transactions.Transactional
 class TestingService {
 
     void testServiceMethod(List<Factory> factories) {
-        try {
-            factories.each {
-                if (it.name == 'second') {
-                    throw new Exception('second')
-                }
-                it.testField = 'Edited'
-                it.save()
-                println(it.name + ' saved')
+        factories.each {
+            if (it.name == 'second') {
+                throw new Exception('second')
             }
-        } catch (Exception e) {
-            println('Exception Caught ' + e)
+            it.testField = 'Edited'
+            it.save()
+            println(it.name + ' saved')
         }
     }
 }
