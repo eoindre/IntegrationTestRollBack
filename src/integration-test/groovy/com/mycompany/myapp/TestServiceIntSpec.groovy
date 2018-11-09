@@ -20,14 +20,24 @@ class TestServiceIntSpec extends Specification {
 
     void "test something"() {
         when:
-        Factory factoryOne = new Factory(name: "first").save(flush: true)
-        Factory factoryTwo = new Factory(name: "second").save(flush: true)
-        List<Factory> factories = [factoryOne, factoryTwo]
+        List<Factory> factories = []
+        Factory.withNewTransaction {
+            factories.add(new Factory(name: "first"))
+            factories.add(new Factory(name: "second"))
+            factories*.save(flush: true, failOnError: true)
+        }
         testingService.testServiceMethod(factories)
 
         then:
         def ex = thrown(Exception)
-        factoryOne.testField == null
-        factoryTwo.testField == null
+
+        when:
+        Factory factory
+        Factory.withNewSession {
+            factory = Factory.findByName("first")
+        }
+
+        then:
+        factory.testField == null
     }
 }
